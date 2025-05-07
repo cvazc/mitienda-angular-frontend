@@ -1,0 +1,81 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-center text-gray-900">Iniciar Sesión</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">
+          Usuario:
+        </label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          placeholder="Ingresa tu usuario"
+          required
+          class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          [ngClass]="{
+            'border-red-500 focus:ring-red-500 focus:border-red-500':
+              username?.invalid && (username?.dirty || username?.touched)
+          }"
+        />
+        <div
+          *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+          class="mt-1 text-xs text-red-600"
+        >
+          <div *ngIf="username?.errors?.['required']">
+            El nombre de usuario es requerido.
+          </div>
+          <div *ngIf="username?.errors?.['minlength']">
+            El usuario debe tener al menos 3 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">
+          Contraseña:
+        </label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          placeholder="Ingresa tu contraseña"
+          required
+          class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          [ngClass]="{
+            'border-red-500 focus:ring-red-500 focus:border-red-500':
+              password?.invalid && (password?.dirty || password?.touched)
+          }"
+        />
+        <div
+          *ngIf="password?.invalid && (password?.dirty || password?.touched)"
+          class="mt-1 text-xs text-red-600"
+        >
+          <div *ngIf="password?.errors?.['required']">
+            La contraseña es requerida.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid || isLoading"
+          class="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ isLoading ? "Ingresando..." : "Ingresar" }}
+        </button>
+      </div>
+
+      <div class="mt-4 text-sm text-center">
+        <a
+          routerLink="/registro"
+          class="font-medium text-indigo-600 hover:text-indigo-500"
+        >
+          ¿No tienes cuenta? Regístrate aquí
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

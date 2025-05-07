@@ -1,0 +1,86 @@
+<div class="container p-6 mx-auto">
+  <h2 class="mb-6 text-3xl font-bold text-center text-gray-800">
+    Lista de Productos
+  </h2>
+
+  <div class="mb-6 text-right">
+    <a
+      routerLink="/productos/crear"
+      class="inline-block px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-green-600 rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+    >
+      &#43; Crear Nuevo Producto
+    </a>
+  </div>
+
+  <div *ngIf="isLoading" class="py-10 text-center text-gray-600">
+    <p>Cargando productos...</p>
+    <svg
+      class="inline w-8 h-8 mr-3 text-indigo-600 animate-spin"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  </div>
+
+  <div
+    *ngIf="errorMessage && !isLoading"
+    class="px-4 py-3 mb-4 text-sm text-red-700 bg-red-100 border border-red-400 rounded"
+    role="alert"
+  >
+    <strong class="font-bold">Error:</strong>
+    <span class="block sm:inline"> {{ errorMessage }}</span>
+  </div>
+
+  <div *ngIf="productos$ | async as products">
+    <div
+      *ngIf="!isLoading && !errorMessage && products.length === 0"
+      class="py-10 text-center text-gray-500"
+    >
+      <p>No se encontraron productos.</p>
+    </div>
+
+    <div
+      *ngIf="products.length > 0"
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    >
+      <a
+        *ngFor="let producto of products"
+        [routerLink]="['/productos', producto.id]"
+        class="block p-4 overflow-hidden bg-white rounded-lg shadow-md hover:shadow-lg hover:bg-gray-50 transition-all duration-300 ease-in-out cursor-pointer"
+      >
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <h3
+              class="mb-2 text-xl font-semibold text-gray-800 truncate"
+              title="{{ producto.name }}"
+            >
+              {{ producto.name }}
+            </h3>
+            <p class="mb-3 text-sm text-gray-600 h-16 overflow-y-auto">
+              {{ producto.description || "Sin descripción" }}
+            </p>
+          </div>
+          <div class="mt-4">
+            <p class="text-lg font-bold text-indigo-600">
+              ${{ producto.price | number : "1.2-2" }}
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

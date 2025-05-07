@@ -1,0 +1,76 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+
+    <h2 class="text-2xl font-bold text-center text-gray-900">
+      Crear Cuenta
+    </h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4"> <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">Usuario:</label>
+        <input type="text" id="username" formControlName="username" placeholder="Elige un nombre de usuario" required
+               class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+               [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': username?.invalid && (username?.dirty || username?.touched)}">
+        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="mt-1 text-xs text-red-600">
+          <div *ngIf="username?.errors?.['required']">Requerido.</div>
+          <div *ngIf="username?.errors?.['minlength']">Mínimo 3 caracteres.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+        <input type="email" id="email" formControlName="email" placeholder="tu@correo.com" required
+               class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+               [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': email?.invalid && (email?.dirty || email?.touched)}">
+        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="mt-1 text-xs text-red-600">
+          <div *ngIf="email?.errors?.['required']">Requerido.</div>
+          <div *ngIf="email?.errors?.['email']">Email inválido.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+        <input type="password" id="password" formControlName="password" placeholder="Crea una contraseña" required
+               class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+               [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': password?.invalid && (password?.dirty || password?.touched)}">
+        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="mt-1 text-xs text-red-600">
+          <div *ngIf="password?.errors?.['required']">Requerido.</div>
+          <div *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmar Contraseña:</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Repite la contraseña" required
+               class="block w-full px-3 py-2 mt-1 text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+               [ngClass]="{'border-red-500 focus:ring-red-500 focus:border-red-500': (confirmPassword?.invalid || registerForm.errors?.['passwordMismatch']) && (confirmPassword?.dirty || confirmPassword?.touched || password?.touched) }"> <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="mt-1 text-xs text-red-600">
+            <div *ngIf="confirmPassword?.errors?.['required']">Requerido.</div>
+         </div>
+         <div *ngIf="registerForm.errors?.['passwordMismatch'] && (confirmPassword?.dirty || confirmPassword?.touched || password?.touched)" class="mt-1 text-xs text-red-600">
+             Las contraseñas no coinciden.
+         </div>
+      </div>
+
+
+      <div *ngIf="errorMessage" class="px-4 py-3 text-sm text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
+        <span class="font-medium">Error:</span> {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="px-4 py-3 text-sm text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
+        {{ successMessage }} <a routerLink="/login" class="font-medium underline">Iniciar sesión</a>.
+      </div>
+
+      <div class="pt-2"> <button type="submit" [disabled]="registerForm.invalid || isLoading"
+                class="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md group hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+          {{ isLoading ? 'Registrando...' : 'Crear Cuenta' }}
+        </button>
+      </div>
+
+      <div class="text-sm text-center">
+        <a routerLink="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+          ¿Ya tienes cuenta? Inicia sesión
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>
